@@ -1,15 +1,20 @@
 import java.util.List;
 import aStar.*;
 
-public class Agent{
+public class Agent  implements Runnable{
     private int [] currentPos;
     private int [] goalPos;
-    static Agent [][] grid;
+    static Grid grid;
     static List<Agent> agents;
+    public int id;
+    public List<Node> chemin;
 
-    public Agent(int[] currentPos, int[] goalPos) {
+    public Agent(int[] currentPos, int[] goalPos, int id) {
         this.currentPos = currentPos;
         this.goalPos = goalPos;
+        this.id = id;
+        grid.placeAgent(currentPos, id);
+        grid.printGrid();
     }
 
     public Agent() {
@@ -17,16 +22,31 @@ public class Agent{
     }
 
     public void getShortestPath() {
-        Node initialNode = new Node(2, 1);
-        Node finalNode = new Node(2, 4);
-        int rows = 5;
-        int cols = 5;
+        Node initialNode = new Node(currentPos[0], currentPos[1]);
+        Node finalNode = new Node(goalPos[0], goalPos[1]);
+        int rows = grid.getxSize();
+        int cols = grid.getySize();
         AStar aStar = new AStar(rows, cols, initialNode, finalNode);
-        int[][] blocksArray = new int[][]{ {2, 3}, {3, 3}};
-        aStar.setBlocks(blocksArray);
-        List<Node> path = aStar.findPath();
-        for (Node node : path) {
-            System.out.println(node);
+        chemin = aStar.findPath();
+        chemin.remove(0);
+    }
+
+    public synchronized boolean move(int[] goal) {
+        if(grid.isAvailable(goal)) {
+            grid.updateGrid(currentPos, goal);
+            currentPos = goal;
+            return true;
+        }
+        return false;
+    }
+
+    public void run() {
+        getShortestPath();
+        while(currentPos[0] != goalPos[0] || currentPos[1] != goalPos[1]) {
+            int [] pos = {chemin.get(0).getRow(), chemin.get(0).getCol()};
+            if(move(pos)) {
+                chemin.remove(0);
+            }
         }
     }
 
