@@ -1,12 +1,11 @@
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class Grid  extends Observable {
+public class Grid extends Observable {
 
-    public int [][] grid;
+    public int[][] grid;
     private int xSize;
     private int ySize;
     private List<int[]> occupedPos;
@@ -20,14 +19,14 @@ public class Grid  extends Observable {
                 grid[i][j] = 0;
             }
         }
-       // occupedPos = new ArrayList<>();
+        // occupedPos = new ArrayList<>();
     }
 
-    public void placeAgent(int [] pos, int id) {
+    public void placeAgent(int[] pos, int id) {
         grid[pos[0]][pos[1]] = id;
     }
 
-    public synchronized void updateGrid(@NotNull int [] oldPos, int [] newPos) {
+    public synchronized void updateGrid(@NotNull int[] oldPos, int[] newPos) {
         this.grid[newPos[0]][newPos[1]] = this.grid[oldPos[0]][oldPos[1]];
         this.grid[oldPos[0]][oldPos[1]] = 0;
         printGrid();
@@ -35,12 +34,12 @@ public class Grid  extends Observable {
         notifyObservers();
         try {
             Thread.sleep(500);
-        } catch(InterruptedException e){
+        } catch (InterruptedException e) {
             System.out.println(e);
         }
     }
 
-    public boolean isAvailable(int [] pos) {
+    public boolean isAvailable(int[] pos) {
         return (pos[0] < xSize && pos[0] >= 0 && pos[1] < ySize && pos[1] >= 0 && grid[pos[0]][pos[1]] == 0);
     }
 

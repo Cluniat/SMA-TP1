@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -7,6 +9,7 @@ public class Taquin extends JFrame implements Observer {
 
     private JPanel panel;
     private Grid grid;
+    private ArrayList<JButton> rectangles = new ArrayList<>();
 
     public Taquin(Grid grid) {
         this.grid = grid;
@@ -25,11 +28,11 @@ public class Taquin extends JFrame implements Observer {
         Thread t3 = new Thread(a3);
 
         panel = new JPanel();
-
-
+        panel.setBackground(Color.BLACK);
+        generateRectangle();
         drawPanel();
 
-        setSize(325, 275);
+        setSize(255, 290);
         setTitle("Taquin");
         setResizable(false);
         setLocationRelativeTo(null);
@@ -43,19 +46,35 @@ public class Taquin extends JFrame implements Observer {
 
     private void drawPanel() {
         panel.removeAll();
-        panel.setLayout(new GridLayout(grid.getxSize(), grid.getySize(), 0, 0));
+        panel.setLayout(null);
         add(Box.createRigidArea(new Dimension(0, grid.getxSize()+1)), BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
+        ArrayList<JButton> tempRectangles = this.rectangles;
+
         for (int i = 0; i < grid.getxSize(); i++) {
             for (int j = 0; j < grid.getySize(); j++) {
-                JButton rectangle = new JButton();
-                rectangle.setBackground(ColorHelper.generateColor());
-                Label label = new Label(""+grid.grid[j][i]);
-                rectangle.add(label);
-                panel.add(rectangle);
+                for (JButton rectangle: tempRectangles) {
+                    if(rectangle.getText().equals("" + grid.grid[j][i])) {
+                        panel.add(rectangle);
+                        rectangle.setBounds(j*50, i*50, 50, 50);
+                    }
+                }
             }
         }
         panel.updateUI();
+    }
+
+    private void generateRectangle() {
+        for (int i = 0; i < grid.getxSize(); i++) {
+            for (int j = 0; j < grid.getySize(); j++) {
+                JButton rectangle = new JButton();
+                if(grid.grid[j][i] != 0) {
+                    rectangle.setBackground(ColorHelper.generateColor());
+                    rectangle.setText(""+grid.grid[j][i]);
+                    this.rectangles.add(rectangle);
+                }
+            }
+        }
     }
 
     @Override
