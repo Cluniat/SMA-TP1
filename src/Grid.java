@@ -33,7 +33,7 @@ public class Grid extends Observable {
         setChanged();
         notifyObservers();
         try {
-            Thread.sleep(500);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             System.out.println(e);
         }

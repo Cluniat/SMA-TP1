@@ -26,6 +26,10 @@ public class Taquin extends JFrame implements Observer {
         int [] cur3 = {0, 1};
         Agent a3 = new Agent(cur3, goal3, 21);
         Thread t3 = new Thread(a3);
+        int [] goal4 = {3, 4};
+        int [] cur4 = {0, 0};
+        Agent a4 = new Agent(cur4, goal4, 24);
+        Thread t4 = new Thread(a4);
 
         panel = new JPanel();
         panel.setBackground(Color.BLACK);
@@ -42,6 +46,7 @@ public class Taquin extends JFrame implements Observer {
         t1.start();
         t2.start();
         t3.start();
+        t4.start();
     }
 
     private void drawPanel() {
