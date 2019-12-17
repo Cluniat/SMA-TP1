@@ -2,10 +2,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Grid {
+public class Grid  extends Observable {
 
-    private int [][] grid;
+    public int [][] grid;
     private int xSize;
     private int ySize;
     private List<int[]> occupedPos;
@@ -30,6 +31,13 @@ public class Grid {
         this.grid[newPos[0]][newPos[1]] = this.grid[oldPos[0]][oldPos[1]];
         this.grid[oldPos[0]][oldPos[1]] = 0;
         printGrid();
+        setChanged();
+        notifyObservers();
+        try {
+            Thread.sleep(500);
+        } catch(InterruptedException e){
+            System.out.println(e);
+        }
     }
 
     public boolean isAvailable(int [] pos) {

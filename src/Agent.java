@@ -1,7 +1,9 @@
 import java.util.List;
+import java.util.Observable;
+
 import aStar.*;
 
-public class Agent  implements Runnable{
+public class Agent implements Runnable{
     private int [] currentPos;
     private int [] goalPos;
     static Grid grid;
