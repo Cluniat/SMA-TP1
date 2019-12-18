@@ -1,52 +1,39 @@
+package very_stupid_game;
+
 import Common.ColorHelper;
 import Common.Grid;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Taquin extends JFrame implements Observer {
+public class VeryStupidTaquin extends JFrame implements Observer {
 
     private JPanel panel;
     private Grid grid;
     private ArrayList<JButton> rectangles = new ArrayList<>();
 
-    public Taquin(Grid grid) {
+    public VeryStupidTaquin(Grid grid) {
         this.grid = grid;
-        Agent.grid = grid;
+        VeryStupidAgent.grid = grid;
         int [] goal = {0, 0};
         int [] cur = {1, 1};
-        Agent a1 = new Agent(cur, goal);
+        VeryStupidAgent a1 = new VeryStupidAgent(cur, goal, 1);
         Thread t1 = new Thread(a1);
         int [] goal2 = {4, 0};
         int [] cur2 = {1, 0};
-        Agent a2 = new Agent(cur2, goal2);
+        VeryStupidAgent a2 = new VeryStupidAgent(cur2, goal2, 5);
         Thread t2 = new Thread(a2);
         int [] goal3 = {0, 4};
         int [] cur3 = {0, 1};
-        Agent a3 = new Agent(cur3, goal3);
+        VeryStupidAgent a3 = new VeryStupidAgent(cur3, goal3, 21);
         Thread t3 = new Thread(a3);
         int [] goal4 = {3, 4};
         int [] cur4 = {0, 0};
-        Agent a4 = new Agent(cur4, goal4);
+        VeryStupidAgent a4 = new VeryStupidAgent(cur4, goal4, 24);
         Thread t4 = new Thread(a4);
-        int [] goal5 = {2, 4};
-        int [] cur5 = {3, 1};
-        Agent a5 = new Agent(cur5, goal5);
-        Thread t5 = new Thread(a5);
-        int [] goal6 = {1, 2};
-        int [] cur6 = {1, 3};
-        Agent a6 = new Agent(cur6, goal6);
-        Thread t6 = new Thread(a6);
-        int [] goal7 = {4, 4};
-        int [] cur7 = {1, 2};
-        Agent a7 = new Agent(cur7, goal7);
-        Thread t7 = new Thread(a7);
-        int [] goal8 = {3, 3};
-        int [] cur8 = {4, 1};
-        Agent a8 = new Agent(cur8, goal8);
-        Thread t8 = new Thread(a8);
-
 
         panel = new JPanel();
         panel.setBackground(Color.BLACK);
@@ -64,10 +51,6 @@ public class Taquin extends JFrame implements Observer {
         t2.start();
         t3.start();
         t4.start();
-        t5.start();
-        t6.start();
-        t7.start();
-        t8.start();
     }
 
     private void drawPanel() {
@@ -102,7 +85,6 @@ public class Taquin extends JFrame implements Observer {
             }
         }
     }
-
 
     @Override
     public void update(Observable o, Object arg) {

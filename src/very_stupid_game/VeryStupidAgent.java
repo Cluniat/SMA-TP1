@@ -1,13 +1,15 @@
-import java.util.List;
-import java.util.Observable;
+package very_stupid_game;
 
+import java.util.List;
+
+import Common.Grid;
 import aStar.*;
 
 public class VeryStupidAgent implements Runnable {
     private int[] currentPos;
     private int[] goalPos;
     static Grid grid;
-    static List<Agent> agents;
+    static List<VeryStupidAgent> agents;
     public int id;
     public List<Node> chemin;
 

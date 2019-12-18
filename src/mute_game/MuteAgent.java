@@ -1,17 +1,19 @@
+package mute_game;
+
 import java.util.List;
 
 import Common.Grid;
 import aStar.*;
 
-public class Agent implements Runnable{
+public class MuteAgent implements Runnable{
     private int [] currentPos;
     private int [] goalPos;
     static Grid grid;
-    static List<Agent> agents;
+    static List<MuteAgent> agents;
     public int id;
     public List<Node> chemin;
 
-    public Agent(int[] currentPos, int[] goalPos) {
+    public MuteAgent(int[] currentPos, int[] goalPos) {
         this.currentPos = currentPos;
         this.goalPos = goalPos;
         this.id = goalPos[1] * 5 + goalPos[0] + 1;
@@ -19,7 +21,7 @@ public class Agent implements Runnable{
         grid.printGrid();
     }
 
-    public Agent() {
+    public MuteAgent() {
 
     }
 
@@ -52,7 +54,7 @@ public class Agent implements Runnable{
                 chemin.remove(0);
             }else {
                 nbRep++;
-                if (nbRep > 5 && goalPos[0] != pos[0] && goalPos[1] != pos[1]) {
+                if (nbRep > 5 && (goalPos[0] != pos[0] || goalPos[1] != pos[1])) {
                     Node initialNode = new Node(currentPos[0], currentPos[1]);
                     Node finalNode = new Node(goalPos[0], goalPos[1]);
                     int rows = grid.getxSize();
@@ -69,7 +71,7 @@ public class Agent implements Runnable{
     }
 
     public static void main(String[] args) {
-        Agent a = new Agent();
+        MuteAgent a = new MuteAgent();
         a.getShortestPath();
     }
 

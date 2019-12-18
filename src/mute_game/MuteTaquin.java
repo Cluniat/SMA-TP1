@@ -1,35 +1,54 @@
+package mute_game;
+
+import Common.ColorHelper;
+import Common.Grid;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
-public class VeryStupidTaquin extends JFrame implements Observer {
+public class MuteTaquin extends JFrame implements Observer {
 
     private JPanel panel;
     private Grid grid;
     private ArrayList<JButton> rectangles = new ArrayList<>();
 
-    public VeryStupidTaquin(Grid grid) {
+    public MuteTaquin(Grid grid) {
         this.grid = grid;
-        VeryStupidAgent.grid = grid;
+        MuteAgent.grid = grid;
         int [] goal = {0, 0};
         int [] cur = {1, 1};
-        VeryStupidAgent a1 = new VeryStupidAgent(cur, goal, 1);
+        MuteAgent a1 = new MuteAgent(cur, goal);
         Thread t1 = new Thread(a1);
         int [] goal2 = {4, 0};
         int [] cur2 = {1, 0};
-        VeryStupidAgent a2 = new VeryStupidAgent(cur2, goal2, 5);
+        MuteAgent a2 = new MuteAgent(cur2, goal2);
         Thread t2 = new Thread(a2);
         int [] goal3 = {0, 4};
         int [] cur3 = {0, 1};
-        VeryStupidAgent a3 = new VeryStupidAgent(cur3, goal3, 21);
+        MuteAgent a3 = new MuteAgent(cur3, goal3);
         Thread t3 = new Thread(a3);
         int [] goal4 = {3, 4};
         int [] cur4 = {0, 0};
-        VeryStupidAgent a4 = new VeryStupidAgent(cur4, goal4, 24);
+        MuteAgent a4 = new MuteAgent(cur4, goal4);
         Thread t4 = new Thread(a4);
+        int [] goal5 = {2, 4};
+        int [] cur5 = {3, 1};
+        MuteAgent a5 = new MuteAgent(cur5, goal5);
+        Thread t5 = new Thread(a5);
+        int [] goal6 = {1, 2};
+        int [] cur6 = {1, 3};
+        MuteAgent a6 = new MuteAgent(cur6, goal6);
+        Thread t6 = new Thread(a6);
+        int [] goal7 = {4, 4};
+        int [] cur7 = {1, 2};
+        MuteAgent a7 = new MuteAgent(cur7, goal7);
+        Thread t7 = new Thread(a7);
+        int [] goal8 = {3, 3};
+        int [] cur8 = {4, 1};
+        MuteAgent a8 = new MuteAgent(cur8, goal8);
+        Thread t8 = new Thread(a8);
+
 
         panel = new JPanel();
         panel.setBackground(Color.BLACK);
@@ -47,6 +66,10 @@ public class VeryStupidTaquin extends JFrame implements Observer {
         t2.start();
         t3.start();
         t4.start();
+        t5.start();
+        t6.start();
+        t7.start();
+        t8.start();
     }
 
     private void drawPanel() {
@@ -81,6 +104,7 @@ public class VeryStupidTaquin extends JFrame implements Observer {
             }
         }
     }
+
 
     @Override
     public void update(Observable o, Object arg) {
