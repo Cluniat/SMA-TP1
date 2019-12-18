@@ -16,19 +16,19 @@ public class Taquin extends JFrame implements Observer {
         Agent.grid = grid;
         int [] goal = {0, 0};
         int [] cur = {1, 1};
-        Agent a1 = new Agent(cur, goal, 1);
+        Agent a1 = new Agent(cur, goal);
         Thread t1 = new Thread(a1);
         int [] goal2 = {4, 0};
         int [] cur2 = {1, 0};
-        Agent a2 = new Agent(cur2, goal2, 5);
+        Agent a2 = new Agent(cur2, goal2);
         Thread t2 = new Thread(a2);
         int [] goal3 = {0, 4};
         int [] cur3 = {0, 1};
-        Agent a3 = new Agent(cur3, goal3, 21);
+        Agent a3 = new Agent(cur3, goal3);
         Thread t3 = new Thread(a3);
         int [] goal4 = {3, 4};
         int [] cur4 = {0, 0};
-        Agent a4 = new Agent(cur4, goal4, 24);
+        Agent a4 = new Agent(cur4, goal4);
         Thread t4 = new Thread(a4);
 
         panel = new JPanel();
