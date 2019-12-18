@@ -39,7 +39,7 @@ public class Grid extends Observable {
         }
     }
 
-    public boolean isAvailable(int[] pos) {
+    public synchronized boolean isAvailable(int[] pos) {
         return (pos[0] < xSize && pos[0] >= 0 && pos[1] < ySize && pos[1] >= 0 && grid[pos[0]][pos[1]] == 0);
     }
 
