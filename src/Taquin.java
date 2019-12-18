@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class Taquin extends JFrame implements Observer {
 
@@ -30,6 +27,23 @@ public class Taquin extends JFrame implements Observer {
         int [] cur4 = {0, 0};
         Agent a4 = new Agent(cur4, goal4);
         Thread t4 = new Thread(a4);
+        int [] goal5 = {2, 4};
+        int [] cur5 = {3, 1};
+        Agent a5 = new Agent(cur5, goal5);
+        Thread t5 = new Thread(a5);
+        int [] goal6 = {1, 2};
+        int [] cur6 = {1, 3};
+        Agent a6 = new Agent(cur6, goal6);
+        Thread t6 = new Thread(a6);
+        int [] goal7 = {4, 4};
+        int [] cur7 = {1, 2};
+        Agent a7 = new Agent(cur7, goal7);
+        Thread t7 = new Thread(a7);
+        int [] goal8 = {3, 3};
+        int [] cur8 = {4, 1};
+        Agent a8 = new Agent(cur8, goal8);
+        Thread t8 = new Thread(a8);
+
 
         panel = new JPanel();
         panel.setBackground(Color.BLACK);
@@ -47,6 +61,10 @@ public class Taquin extends JFrame implements Observer {
         t2.start();
         t3.start();
         t4.start();
+        t5.start();
+        t6.start();
+        t7.start();
+        t8.start();
     }
 
     private void drawPanel() {
@@ -81,6 +99,7 @@ public class Taquin extends JFrame implements Observer {
             }
         }
     }
+
 
     @Override
     public void update(Observable o, Object arg) {
