@@ -59,7 +59,7 @@ public class MessageAgent implements Runnable{
     }
 
 
-    public boolean tryToMove() {
+    public synchronized boolean tryToMove() {
         boolean a = false;
         int [] nPos = currentPos.clone();
         if(nPos[0] != 0) {
@@ -90,6 +90,8 @@ public class MessageAgent implements Runnable{
         getShortestPath();
         int nbRep = 0;
         int noMove = 0;
+        int lastMoveX = -1;
+        int lastMoveY = -1;
 
         while(!grid.isFinish()) {
             if(currentPos[0] != goalPos[0] || currentPos[1] != goalPos[1]) {
@@ -98,6 +100,8 @@ public class MessageAgent implements Runnable{
                     nbRep = 0;
                     noMove = 0;
                     chemin.remove(0);
+                    lastMoveX = -1;
+                    lastMoveY = -1;
                 } else if (haveToMove()) {
                     if(tryToMove()) {
                         Node initialNode = new Node(currentPos[0], currentPos[1]);
@@ -108,6 +112,9 @@ public class MessageAgent implements Runnable{
                         chemin = aStar.findPath();
                         System.out.println(chemin);
                         chemin.remove(0);
+                        lastMoveX = -1;
+                        lastMoveY = -1;
+
                     }
 
                 } else {
@@ -132,9 +139,15 @@ public class MessageAgent implements Runnable{
                         AStar aStar = new AStar(rows, cols, initialNode, finalNode);
                         int[][] b = {pos};
                         aStar.setBlocks(b);
+                        if (lastMoveX != -1) {
+                            b = new int[][]{{lastMoveX, lastMoveY}};
+                            aStar.setBlocks(b);
+                        }
                         chemin = aStar.findPath();
                         System.out.println(chemin);
                         chemin.remove(0);
+                        lastMoveX = pos[0];
+                        lastMoveY = pos[1];
                         nbRep = 0;
                     }}
                 }
