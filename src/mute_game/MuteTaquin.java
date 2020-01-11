@@ -56,7 +56,7 @@ public class MuteTaquin extends JFrame implements Observer {
         drawPanel();
 
         setSize(255, 290);
-        setTitle("Taquin");
+        setTitle("game_with_message.Taquin");
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

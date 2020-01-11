@@ -74,13 +74,18 @@ public class Grid extends Observable {
         mailBox.put(id, new ArrayList<Message>());
     }
 
-    public List<Message> getMail(int id) {
-        if(id == 19) {
-           // System.out.println("AZEQSD");
-           // System.out.println(mailBox.get(id).size());
-            //System.out.println("za");
+    public synchronized List<Message> getMail(int id) {
+        List<Message> msg = new ArrayList<>();
+        List<Message> a = mailBox.get(id);
+        try {
+            for (Message m : a
+            ) {
+                msg.add(m.clone());
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        return mailBox.get(id);
+        return msg;
     }
 
     public void sendMail(int id, Message msg) {

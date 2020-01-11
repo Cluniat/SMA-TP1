@@ -1,17 +1,19 @@
+package game_with_message;
+
 import java.util.List;
 
 import Common.Grid;
 import Common.Message;
 import aStar.*;
-public class Agent implements Runnable{
+public class MessageAgent implements Runnable{
     private int [] currentPos;
     private int [] goalPos;
     static Grid grid;
-    static List<Agent> agents;
+    static List<MessageAgent> agents;
     public int id;
     public List<Node> chemin;
 
-    public Agent(int[] currentPos, int[] goalPos) {
+    public MessageAgent(int[] currentPos, int[] goalPos) {
         this.currentPos = currentPos;
         this.goalPos = goalPos;
         this.id = goalPos[1] * 5 + goalPos[0] + 1;
@@ -20,7 +22,7 @@ public class Agent implements Runnable{
         grid.subscribeMailBox(id);
     }
 
-    public Agent() {
+    public MessageAgent() {
 
     }
 
@@ -44,15 +46,7 @@ public class Agent implements Runnable{
     }
 
     public boolean haveToMove() {
-        if(id == 19){
-            //System.out.println("AZERTY");
-        }
         List<Message> msg = grid.getMail(id);
-        if(id == 19){
-           // System.out.println("AZERTY");
-            //System.out.println(msg);
-        }
-        //System.out.println(msg);
         for (Message mes : msg) {
             if (mes.getPos()[0] == currentPos[0] && mes.getPos()[1] == currentPos[1]) {
                 grid.voidMail(id);
@@ -96,6 +90,7 @@ public class Agent implements Runnable{
         getShortestPath();
         int nbRep = 0;
         int noMove = 0;
+
         while(!grid.isFinish()) {
             if(currentPos[0] != goalPos[0] || currentPos[1] != goalPos[1]) {
                 int[] pos = {chemin.get(0).getRow(), chemin.get(0).getCol()};
@@ -118,15 +113,9 @@ public class Agent implements Runnable{
                 } else {
                     noMove++;
                     nbRep++;
-                    //System.out.println(noMove);
-                    if (noMove > 200) {
-                        //System.out.println("COUCOU");
-                        //System.out.println(this.id);
+                    if (noMove > 20) {
                         int idMove = grid.grid[chemin.get(0).getRow()][chemin.get(0).getCol()];
-                        Message msg = new Message(this.id, idMove, 12, "MOVE", pos);
-                        //System.out.println(msg.getPos()[0]);
-                        //System.out.println(msg.getPos()[1]);
-                        //System.out.println(idMove);
+                        Message msg = new Message(this.id, idMove, "MOVE", pos);
                         grid.sendMail(idMove, msg);
                         try {
                             Thread.sleep(100) ;
@@ -169,7 +158,7 @@ public class Agent implements Runnable{
     }
 
     public static void main(String[] args) {
-        Agent a = new Agent();
+        MessageAgent a = new MessageAgent();
         a.getShortestPath();
     }
 

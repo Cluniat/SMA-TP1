@@ -1,5 +1,6 @@
+package game_with_message;
+
 import Common.Grid;
-import mute_game.MuteTaquin;
 
 public class Main {
 
@@ -8,10 +9,10 @@ public class Main {
 //        very_stupid_game.VeryStupidTaquin taquin = new very_stupid_game.VeryStupidTaquin(grid);
 //        grid.addObserver(taquin);
         Grid grid = new Grid(5,5);
-        Taquin taquin = new Taquin(grid);
+        MessageTaquin taquin = new MessageTaquin(grid);
         grid.addObserver(taquin);
 //        Common.Grid grid = new Common.Grid(5,5);
-//        Taquin taquin = new Taquin(grid);
+//        game_with_message.Taquin taquin = new game_with_message.Taquin(grid);
 //        grid.addObserver(taquin);
     }
 }
