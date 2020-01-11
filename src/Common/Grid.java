@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Grid extends Observable {
 
     public int[][] grid;
     private int xSize;
     private int ySize;
-    private HashMap<Integer, List<Message>> mailBox;
+    private ConcurrentHashMap<Integer, List<Message>> mailBox;
     private List<int[]> occupedPos;
 
     public Grid(int xSize, int ySize) {
@@ -25,7 +26,7 @@ public class Grid extends Observable {
                 grid[i][j] = 0;
             }
         }
-        mailBox = new HashMap<>();
+        mailBox = new ConcurrentHashMap<>();
         // occupedPos = new ArrayList<>();
     }
 
@@ -40,7 +41,7 @@ public class Grid extends Observable {
         setChanged();
         notifyObservers();
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
@@ -73,18 +74,19 @@ public class Grid extends Observable {
         mailBox.put(id, new ArrayList<Message>());
     }
 
-    public synchronized List<Message> getMail(int id) {
+    public List<Message> getMail(int id) {
         if(id == 19) {
-            System.out.println("AZEQSD");
-            System.out.println(mailBox.get(id).size());
+           // System.out.println("AZEQSD");
+           // System.out.println(mailBox.get(id).size());
+            //System.out.println("za");
         }
         return mailBox.get(id);
     }
 
-    public synchronized void sendMail(int id, Message msg) {
+    public void sendMail(int id, Message msg) {
         mailBox.get(id).add(msg);
-        System.out.println(mailBox.get(id).size());
-        System.out.println(id);
+        //System.out.println(mailBox.get(id).size());
+        //System.out.println(id);
     }
 
     public void voidMail(int id) {
@@ -93,7 +95,15 @@ public class Grid extends Observable {
 
 
     public boolean isFinish() {
-        return false;
+        for (int i=0; i<5; i++) {
+            for (int j=0; j<5; j++) {
+                if(grid[i][j] != 0 && grid[i][j] != j * 5 + i + 1) {
+                    return false;
+                }
+            }
+
+        }
+        return true;
     }
 
 }

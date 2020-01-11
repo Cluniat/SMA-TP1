@@ -37,34 +37,37 @@ public class Agent implements Runnable{
     public synchronized boolean move(int[] goal) {
         if(grid.isAvailable(goal)) {
             grid.updateGrid(currentPos, goal);
-            currentPos = goal;
+            currentPos = goal.clone();
             return true;
         }
         return false;
     }
 
     public boolean haveToMove() {
+        if(id == 19){
+            //System.out.println("AZERTY");
+        }
         List<Message> msg = grid.getMail(id);
         if(id == 19){
-            System.out.println("AZERTY");
-            System.out.println(msg);
+           // System.out.println("AZERTY");
+            //System.out.println(msg);
         }
-        grid.voidMail(id);
         //System.out.println(msg);
         for (Message mes : msg) {
             if (mes.getPos()[0] == currentPos[0] && mes.getPos()[1] == currentPos[1]) {
+                grid.voidMail(id);
                 return true;
             }
         }
+        grid.voidMail(id);
         return false;
 
     }
 
 
     public boolean tryToMove() {
-        System.out.println("NOW MOVE");
         boolean a = false;
-        int [] nPos = currentPos;
+        int [] nPos = currentPos.clone();
         if(nPos[0] != 0) {
             nPos[0] -= 1;
             a = move(nPos);
@@ -116,18 +119,23 @@ public class Agent implements Runnable{
                     noMove++;
                     nbRep++;
                     //System.out.println(noMove);
-                    if (noMove > 20) {
-                        System.out.println("COUCOU");
-                        System.out.println(this.id);
+                    if (noMove > 200) {
+                        //System.out.println("COUCOU");
+                        //System.out.println(this.id);
                         int idMove = grid.grid[chemin.get(0).getRow()][chemin.get(0).getCol()];
                         Message msg = new Message(this.id, idMove, 12, "MOVE", pos);
-                        System.out.println(msg.getPos()[0]);
-                        System.out.println(msg.getPos()[1]);
-                        System.out.println(idMove);
+                        //System.out.println(msg.getPos()[0]);
+                        //System.out.println(msg.getPos()[1]);
+                        //System.out.println(idMove);
                         grid.sendMail(idMove, msg);
+                        try {
+                            Thread.sleep(100) ;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         noMove = 0;
                     } else {
-                    if (nbRep > 5 && goalPos[0] != pos[0] && goalPos[1] != pos[1]) {
+                    if (nbRep > 5 && (goalPos[0] != pos[0] || goalPos[1] != pos[1])) {
                         Node initialNode = new Node(currentPos[0], currentPos[1]);
                         Node finalNode = new Node(goalPos[0], goalPos[1]);
                         int rows = grid.getxSize();
@@ -142,9 +150,7 @@ public class Agent implements Runnable{
                     }}
                 }
             } else {
-                if(id==19) {
-                    System.out.println("AQWZSX");
-                }
+                //System.out.println(id);
                 if (haveToMove()) {
                     if (tryToMove()) {
                         Node initialNode = new Node(currentPos[0], currentPos[1]);
@@ -153,13 +159,13 @@ public class Agent implements Runnable{
                         int cols = grid.getySize();
                         AStar aStar = new AStar(rows, cols, initialNode, finalNode);
                         chemin = aStar.findPath();
-                        System.out.println(chemin);
                         chemin.remove(0);
                     }
                 }
 
             }
         }
+
     }
 
     public static void main(String[] args) {
