@@ -36,10 +36,12 @@ public class VeryStupidAgent implements Runnable {
     }
 
     public synchronized boolean move(int[] goal) {
-        if (grid.isAvailable(goal)) {
-            grid.updateGrid(currentPos, goal);
-            currentPos = goal;
-            return true;
+        if((Math.abs(goal[0] - currentPos[0]) + Math.abs(goal[1] - currentPos[1]) == 1)) {
+            boolean b = grid.updateGrid(currentPos, goal);
+            if (b) {
+                currentPos = goal.clone();
+            }
+            return b;
         }
         return false;
     }

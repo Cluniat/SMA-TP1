@@ -34,21 +34,22 @@ public class Grid extends Observable {
         grid[pos[0]][pos[1]] = id;
     }
 
-    public synchronized void updateGrid(@NotNull int[] oldPos, int[] newPos) {
-        this.grid[newPos[0]][newPos[1]] = this.grid[oldPos[0]][oldPos[1]];
-        this.grid[oldPos[0]][oldPos[1]] = 0;
-        printGrid();
-        setChanged();
-        notifyObservers();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e);
+    public synchronized boolean updateGrid(@NotNull int[] oldPos, int[] newPos) {
+        /*Verifie si il est possible de déplacé l'agent de oldPos à newPos et le fait si c'est possible*/
+        if(newPos[0] < xSize && newPos[0] >= 0 && newPos[1] < ySize && newPos[1] >= 0 && grid[newPos[0]][newPos[1]] == 0) {
+            this.grid[newPos[0]][newPos[1]] = this.grid[oldPos[0]][oldPos[1]];
+            this.grid[oldPos[0]][oldPos[1]] = 0;
+            setChanged();
+            notifyObservers();
+            printGrid();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+            return true;
         }
-    }
-
-    public synchronized boolean isAvailable(int[] pos) {
-        return (pos[0] < xSize && pos[0] >= 0 && pos[1] < ySize && pos[1] >= 0 && grid[pos[0]][pos[1]] == 0);
+        return false;
     }
 
     public int getxSize() {
@@ -75,6 +76,7 @@ public class Grid extends Observable {
     }
 
     public synchronized List<Message> getMail(int id) {
+        /*permet de récupérer les messages d'un agents*/
         List<Message> msg = new ArrayList<>();
         List<Message> a = mailBox.get(id);
         try {
@@ -89,9 +91,8 @@ public class Grid extends Observable {
     }
 
     public void sendMail(int id, Message msg) {
+        /*Permet d'envoyer un message à un agent*/
         mailBox.get(id).add(msg);
-        //System.out.println(mailBox.get(id).size());
-        //System.out.println(id);
     }
 
     public void voidMail(int id) {
@@ -100,6 +101,7 @@ public class Grid extends Observable {
 
 
     public boolean isFinish() {
+        /*Verifie si tous les agents ont atteint leur objectif*/
         for (int i=0; i<5; i++) {
             for (int j=0; j<5; j++) {
                 if(grid[i][j] != 0 && grid[i][j] != j * 5 + i + 1) {
